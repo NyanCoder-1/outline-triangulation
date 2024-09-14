@@ -1,0 +1,11 @@
+/winbuild/**
+/build/**
+/bin/**
+/thirdparty/wlr-protocols/include/**
+/thirdparty/wlr-protocols/src/**
+/assets/shaders/**\.spv
+
+/.vscode/**
+!/.vscode/launch.json
+!/.vscode/tasks.json
+!/.vscode/c_cpp_properties.json

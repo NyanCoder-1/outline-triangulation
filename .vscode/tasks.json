@@ -1,0 +1,33 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Create build folder",
+			"type": "shell",
+			"command": "mkdir",
+			"args": ["-p", "${workspaceFolder}/build"],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "CMake: build (debug)",
+			"dependsOn": "Create build folder",
+			"type": "shell",
+			"command": "cmake",
+			"args": ["..", "-DCMAKE_BUILD_TYPE=Debug"],
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			}
+		},
+		{
+			"label": "Build",
+			"dependsOn": "CMake: build (debug)",
+			"type": "shell",
+			"command": "make",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			}
+		}
+	]
+}
