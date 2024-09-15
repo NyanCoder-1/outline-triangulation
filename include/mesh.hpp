@@ -14,6 +14,7 @@ public:
 	struct Vertex {
 		glm::vec3 position;
 		glm::vec4 color;
+		glm::vec2 uv;
 
 		static VkVertexInputBindingDescription GetBindingDescription() {
 			VkVertexInputBindingDescription bindingDescription = {
@@ -34,8 +35,14 @@ public:
 				VkVertexInputAttributeDescription{
 					.location = 1,
 					.binding = 0,
-					.format = VK_FORMAT_R32G32B32_SFLOAT,
+					.format = VK_FORMAT_R32G32B32A32_SFLOAT,
 					.offset = offsetof(Vertex, color)
+				},
+				VkVertexInputAttributeDescription{
+					.location = 2,
+					.binding = 0,
+					.format = VK_FORMAT_R32G32_SFLOAT,
+					.offset = offsetof(Vertex, uv)
 				}
 			};
 			return attributeDescriptions;
@@ -59,6 +66,7 @@ public:
 	}
 
 	void Bind();
+	void Draw();
 
 private:
 	bool Init(const CorePtr core, const Mesh::Vertices &vertices, const Mesh::Indices &indices);
@@ -69,8 +77,9 @@ private:
 	static std::tuple<uint32_t, ErrorFlag> FindMemoryType(const VkPhysicalDevice vkPhysicalDevice, const uint32_t typeFilter, const VkMemoryPropertyFlags properties);
 
 	CoreWeakPtr coreWeak;
-	VkBuffer vertexBuffer;
-	VkDeviceMemory vertexBufferMemory;
-	VkBuffer indexBuffer;
-	VkDeviceMemory indexBufferMemory;
+	VkBuffer vertexBuffer = VK_NULL_HANDLE;
+	VkDeviceMemory vertexBufferMemory = VK_NULL_HANDLE;
+	VkBuffer indexBuffer = VK_NULL_HANDLE;
+	VkDeviceMemory indexBufferMemory = VK_NULL_HANDLE;
+	uint32_t indexCount = 0;
 };

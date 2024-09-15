@@ -23,6 +23,7 @@ I wanted to create a library that triangulates outlines for rendering glyphs and
 ### Linux
 
 ```bash
+./script/compile_shaders.sh
 mkdir -p ./build
 cd ./thirdparty/wlr-protocols
 ./prepare.sh
@@ -36,6 +37,7 @@ cd ../bin
 ### Windows
 
 ```powershell
+./script/compile_shaders.bat
 md ./winbuild -ea 0
 cd ./winbuild
 cmake .. -G "Visual Studio 17 2022"

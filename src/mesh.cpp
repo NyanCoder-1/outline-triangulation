@@ -40,6 +40,20 @@ void Mesh::Bind()
 	}
 }
 
+void Mesh::Draw()
+{
+	if (const auto core = this->coreWeak.lock()) {
+		const auto vkCommandBuffer = core->GetVulkanCurrentFrameCommandBuffer();
+
+		VkBuffer vertexBuffers[] = { this->vertexBuffer };
+		VkDeviceSize offsets[] = { 0 };
+		vkCmdBindVertexBuffers(vkCommandBuffer, 0, 1, vertexBuffers, offsets);
+
+		vkCmdBindIndexBuffer(vkCommandBuffer, this->indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+		vkCmdDrawIndexed(vkCommandBuffer, indexCount, 1, 0, 0, 0);
+	}
+}
+
 bool Mesh::Init(const CorePtr core, const Mesh::Vertices &vertices, const Mesh::Indices &indices)
 {
 	if (!core->GetVulkanDevice())
@@ -51,6 +65,8 @@ bool Mesh::Init(const CorePtr core, const Mesh::Vertices &vertices, const Mesh::
 		return false;
 	if (!this->CreateIndexBuffer(core, indices))
 		return false;
+
+	indexCount = static_cast<uint32_t>(indices.size());
 
 	return true;
 }
